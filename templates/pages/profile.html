@@ -1,0 +1,60 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    {{ profile_user.username }} Profili
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="profile">
+                    <div class="profile-image">
+                        <img src="https://picsum.photos/id/64/100/100" alt="Profil Resmi" class="img-fluid rounded-circle">
+                    </div>
+                    <div class="profile-user-settings">
+                        <h3 class="mt-3">{{ profile_user.username }}</h3>
+                        <p><strong>Takipçiler:</strong> {{ followers_count }}</p>
+                        <p><strong>Takip Edilen:</strong> {{ following_count }}</p>
+                        {% if request.user != profile_user %}
+                            <div>
+                                {% if follow_status %}
+                                    <a href="#" class="btn btn-secondary">Takibi Bırak</a>
+                                {% else %}
+                                    <a href="#" class="btn btn-primary">Takip Et</a>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <hr>
+                <h2 class="mb-4">Postlar</h2>
+                <div class="row">
+                    {% for post in posts_paginator %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{ post.image.url }}" alt="" class="card-img-top">
+                                <div class="card-body">
+                                    <p class="card-text">{{ post.content }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="pagination justify-content-center">
+                    {% if posts_paginator.has_previous %}
+                        <a href="?page=1" class="page-link">&laquo; Başlangıç</a>
+                        <a href="?page={{ posts_paginator.previous_page_number }}" class="page-link">&lsaquo; Önceki</a>
+                    {% endif %}
+                    <span class="page-link">{{ posts_paginator.number }} / {{ posts_paginator.paginator.num_pages }}</span>
+                    {% if posts_paginator.has_next %}
+                        <a href="?page={{ posts_paginator.next_page_number }}" class="page-link">Sonraki &rsaquo;</a>
+                        <a href="?page={{ posts_paginator.paginator.num_pages }}" class="page-link">Son &raquo;</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

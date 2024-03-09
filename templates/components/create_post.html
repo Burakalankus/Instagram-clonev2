@@ -1,0 +1,68 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Create a New Post</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_image">Select an Image:</label>
+            <input type="file" name="image" id="id_image" class="form-control-file">
+            {% if form.post_picture.value %}
+            <img src="{{ form.image.value.url }}" class="img-fluid mt-2" alt="Selected Image">
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="id_content">Content:</label>
+            <textarea name="content" id="id_content" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="id_tags">Tags:</label>
+            <input type="text" id="id_tags" class="form-control" placeholder="Enter tags">
+            <small id="tagsHelp" class="form-text text-muted">Press Enter to add a tag.</small>
+            <ul id="tagList" class="list-inline mt-2">
+                <!-- Tags will be added here -->
+            </ul>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Create Post</button>
+    </form>
+</div>
+
+<!-- Modal for Content Input -->
+<div class="modal fade" id="contentModal" tabindex="-1" role="dialog" aria-labelledby="contentModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contentModalLabel">Enter Content</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="contentTextarea" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveContent">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#saveContent').on('click', function() {
+        var content = $('#contentTextarea').val();
+        $('#id_content').val(content);
+        $('#contentModal').modal('hide');
+    });
+
+    $('#id_tags').keypress(function(event) {
+        if (event.keyCode === 13) {
+            var tag = $(this).val();
+            $(this).val('');
+
+            $('#tagList').append('<li class="list-inline-item"><span class="badge bg-secondary">' + tag + '</span></li>');
+        }
+    });
+</script>
+{% endblock %}
