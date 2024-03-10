@@ -2,29 +2,29 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2 class="mb-4">Create a New Post</h2>
+    <h2 class="mb-4">Post oluştur:</h2>
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
-            <label for="id_image">Select an Image:</label>
+            <label for="id_image">Fotoğrafı seçin:</label>
             <input type="file" name="image" id="id_image" class="form-control-file">
             {% if form.post_picture.value %}
             <img src="{{ form.image.value.url }}" class="img-fluid mt-2" alt="Selected Image">
             {% endif %}
         </div>
         <div class="form-group">
-            <label for="id_content">Content:</label>
-            <textarea name="content" id="id_content" class="form-control" rows="3"></textarea>
+            <label for="id_caption">Caption:</label>
+            <textarea name="caption" id="id_caption" class="form-control" rows="3"></textarea>
         </div>
         <div class="form-group">
             <label for="id_tags">Tags:</label>
             <input type="text" id="id_tags" class="form-control" placeholder="Enter tags">
-            <small id="tagsHelp" class="form-text text-muted">Press Enter to add a tag.</small>
+            <small id="tagsHelp" class="form-text text-muted">Tag eklemek için enter'a basın.</small>
             <ul id="tagList" class="list-inline mt-2">
                 <!-- Tags will be added here -->
             </ul>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Create Post</button>
+        <button type="submit" class="btn btn-primary mt-3">Post oluştur.</button>
     </form>
 </div>
 
@@ -33,7 +33,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="contentModalLabel">Enter Content</h5>
+                <h5 class="modal-title" id="contentModalLabel">İçeriği gir:</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

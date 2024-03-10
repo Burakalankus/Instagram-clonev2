@@ -1,11 +1,11 @@
-import random
-from django.shortcuts import render, get_object_or_404
-
+from django.shortcuts import render, get_object_or_404,redirect
 from django.core.paginator import Paginator
 from .models import Profile
 from post.models import Post
 from .models import Follow
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+
 
 def UserProfile(request, username):
     profile_user = get_object_or_404(User, username=username)
@@ -35,20 +35,16 @@ def UserProfile(request, username):
     return render(request, 'pages/profile.html', context)
 
 
-def followers(request, username):
-    user = get_object_or_404(User, username=username)
-    followers = Follow.objects.filter(following=user)
-    context = {
-        'user': user,
-        'followers': followers,
-    }
-    return render(request, 'profiles/followers.html', context)
+@login_required
+def follow_user(request, username):
+    following_user = User.objects.get(username=username)
+    Follow.objects.get_or_create(follower=request.user, following=following_user)
+    referer_url = request.META.get('HTTP_REFERER')
+    return redirect(referer_url)
 
-def followings(request, username):
-    user = get_object_or_404(User, username=username)
-    followings = Follow.objects.filter(follower=user)
-    context = {
-        'user': user,
-        'followings': followings,
-    }
-    return render(request, 'profiles/followings.html', context)
+@login_required
+def unfollow_user(request, username):
+    following_user = User.objects.get(username=username)
+    Follow.objects.filter(follower=request.user, following=following_user).delete()
+    referer_url = request.META.get('HTTP_REFERER')
+    return redirect(referer_url)
