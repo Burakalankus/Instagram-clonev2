@@ -39,7 +39,6 @@ def create_post(request):
             post = form.save(commit=False)
             post.created_by = request.user if request.user.is_authenticated else None
             post.save()
-            messages.success(request, "Post başarıyla oluşturuldu.")
             return redirect('post:home')
     else:
         form = PostForm()
