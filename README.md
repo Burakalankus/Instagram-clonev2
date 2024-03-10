@@ -39,5 +39,3 @@ Bu proje, Django kullanılarak oluşturulmuş bir Instagram klonudur. Kullanıc�
 **Yorum Ekleme:** Kullanıcılar gönderilere yorum yapabilirler. Yorumlar gönderinin alt kısmında görüntülenir.
 
 
-
-![Ana Sayfa Ekran Görüntüsü](screenshots/screenshot1.png)
