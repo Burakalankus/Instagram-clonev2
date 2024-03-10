@@ -18,7 +18,10 @@
         <hr>
             <div class="row mt-3">
                 {% for post in top_posts %}
-                <div class="col-sm"><img src="{{ post.image.url }}" class="w-100" alt=""></div>
+                <div class="col-sm-4">
+                  <div class="mb-3"><img src="{{ post.image.url }}" class="w-100" alt="">
+                  </div>
+                </div>
                 {% endfor %}
             </div>
     </div>
